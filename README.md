@@ -26,6 +26,7 @@ This project includes an AWS Lambda function that generates a PDF using ReportLa
 ### Prerequisites
 
 - AWS CLI already configured with Administrator permission
+- [Python 3.8 installed](https://www.python.org/downloads/)
 - [NodeJS 12.x installed](https://nodejs.org/en/download/)
 - [Serverless Framework installed](https://serverless.com/framework/docs/getting-started/)
 
