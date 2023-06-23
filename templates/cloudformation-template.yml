@@ -1,0 +1,45 @@
+Resources:
+  MyLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Handler: index.handler
+      Role: 
+        'Fn::GetAtt': 
+          - MyLambdaExecutionRole
+          - Arn
+      Code:
+        S3Bucket: 'lambda-functions'
+        S3Key: 'lambda-pdf-creator.zip'
+      Runtime: python3.9
+      Timeout: '15'
+  MyLambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: 'S3-and-CloudWatch'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - 's3:*'
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
+Outputs:
+  LambdaFunction:
+    Description: 'ARN of the Lambda Function'
+    Value: 
+      'Fn::GetAtt': 
+        - PDFCreatorFunction
+        - Arn
